@@ -1,0 +1,67 @@
+<!--index.wxml-->
+<view class="wrapper {{isShowAdd?'media-padd':''}} {{isEmotion?'emotion-padd':''}}" id="wrapperCon" bindtap="cancelShow">
+  <!-- 消息列表 -->
+  <view class="chat {{item.type=='L'?'chat-l':'chat-r'}}" wx:for="{{messageList}}" wx:for-item="item">
+    <view class="c-date">2019年3月23日 15:33</view>
+    <view class="message-list">
+      <view class="avater {{item.type=='R'?'avater-r':''}}">
+        <image src='{{item.avater}}'></image>
+        <view class="{{item.type=='R'?'nick-name-r':'nick-name-l'}}" wx:if="{{item.type=='L'}}">张三</view>
+        <view class="{{item.type=='R'?'nick-name-r':'nick-name-l'}}" wx:if="{{item.type=='R'}}">李四</view>
+      </view>
+      <view class="chat-con {{item.type=='L'?'chat-con-l':'chat-con-r'}} ">
+        <rich-text wx:if="{{item.messageType=='txt'}}" nodes="{{item.con}}"></rich-text>
+        <image class="message-img" mode="widthFix" bindtap="imagePreview" data-src="{{item.con}}" wx:if="{{item.messageType=='img'}}" src="{{item.con}}"></image>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 消息输入 -->
+<view class="message-input">
+  <!-- <image class="input-img" src='../../imgs/rec.png' id="rec" bindtap="openMedia"></image> -->
+  <input class="{{isShowAdd?'':'showSend'}}" placeholder="请输入内容" type="text" value="{{messageInputVal}}" cursor-spacing="10" bindinput='messageInput' confirm-type="send" bindconfirm="messageSend" />
+  <button bindtap="messageSend" wx:if="{{!isShowAdd}}">发送</button>
+  <image mode="widthFix" class="input-img {{isShowAdd?'':'showAdd'}}" src='../../imgs/face1.png' id="face" bindtap="openEmotion"></image>
+  <image mode="widthFix" class="input-img" wx:if="{{isShowAdd}}" src='../../imgs/add1.png' id="add" bindtap="openMedia"></image>
+  <!-- 媒体文件选择 -->
+  <view class="media-box" wx:if="{{isMedia}}">
+    <view class="media-list" bindtap="selectImg">
+      <image mode="widthFix" class="media-img" src='../../imgs/img2.png'></image>
+      <view>相册图片</view>
+    </view>
+    <view class="media-list" bindtap="selectCamera">
+      <image mode="widthFix" class="media-img" src='../../imgs/cam2.png'></image>
+      <view>相机拍照</view>
+    </view>
+  </view>
+  <!-- 表情文件 -->
+  <view class="emotion-box" wx:if="{{isEmotion}}">
+    <swiper class="home-swiper" indicator-dots="true" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-dots="{{indicatorDots}}">
+      <swiper-item class="emotion-list">
+        <block wx:for-items="{{emotionArr}}" wx:key='index' wx:if="{{index<23}}">
+          <image bindtap="selectEmotion" data-txt="{{item.text}}" src="{{emotionHost+item.name}}.png" class="slide-image" />
+        </block>
+        <image src="../../imgs/emotion/delete.png" bindtap="deleteVal" class="slide-image" />
+      </swiper-item>
+      <swiper-item class="emotion-list">
+        <block wx:for-items="{{emotionArr}}" wx:key='index' wx:if="{{index>=23&&index<46}}">
+          <image bindtap="selectEmotion" data-txt="{{item.text}}" src="{{emotionHost+item.name}}.png" class="slide-image" />
+        </block>
+        <image src="../../imgs/emotion/delete.png" bindtap="deleteVal" class="slide-image" />
+      </swiper-item>
+       <swiper-item class="emotion-list">
+        <block wx:for-items="{{emotionArr}}" wx:key='index' wx:if="{{index>=46&&index<69}}">
+          <image bindtap="selectEmotion" data-txt="{{item.text}}" src="{{emotionHost+item.name}}.png" class="slide-image" />
+        </block>
+        <image src="../../imgs/emotion/delete.png" bindtap="deleteVal" class="slide-image" />
+      </swiper-item>
+       <swiper-item class="emotion-list">
+        <block wx:for-items="{{emotionArr}}" wx:key='index' wx:if="{{index>=69&&index<92}}">
+          <image bindtap="selectEmotion" data-txt="{{item.text}}" src="{{emotionHost+item.name}}.png" class="slide-image" />
+        </block>
+        <image src="../../imgs/emotion/delete.png" bindtap="deleteVal" class="slide-image" />
+      </swiper-item> 
+    </swiper>
+  </view>
+</view>
